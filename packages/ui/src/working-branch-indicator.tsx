@@ -55,24 +55,24 @@ export function WorkingBranchIndicator() {
   }
 
   return (
-    <div className={cn("fixed top-0 left-0 z-10", "flex items-center", "select-none group")}>
+    <div className={cn("fixed top-0 left-0 z-50", "flex items-center", "select-none")}>
       <span
         className={cn(
           "text-[11px] font-mono",
-          "text-muted-foreground/40",
+          "text-muted-foreground/50",
           "px-1.5 py-0.5"
         )}
       >
         {branchName}
       </span>
+
       <button
         onClick={handleDismiss}
         className={cn(
           "p-0.5 rounded",
-          "text-muted-foreground/30 hover:text-muted-foreground/60",
+          "text-muted-foreground/40 hover:text-muted-foreground/70",
           "hover:bg-muted/50",
-          "transition-opacity opacity-0 group-hover:opacity-100",
-          "hover:opacity-100 focus-visible:opacity-100 group-focus-within:opacity-100"
+          "transition-colors"
         )}
         aria-label="Dismiss working branch indicator"
       >
