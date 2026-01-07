@@ -125,6 +125,11 @@ fi
 last_ports=""
 log "Watching apps: ${apps[*]}"
 
+# Wait for dev servers to start before first scan
+INITIAL_DELAY="${APP_PORTS_INITIAL_DELAY:-5}"
+log "Waiting ${INITIAL_DELAY}s for dev servers to start..."
+sleep "$INITIAL_DELAY"
+
 while true; do
   ports=()
   scan_ports
@@ -142,7 +147,7 @@ while true; do
     fi
   done
 
-  if [ "$app_ports" != "$last_ports" ]; then
+  if [ "$app_ports" != "$last_ports" ] && [ -n "$app_ports" ]; then
     for app in "${apps[@]}"; do
       write_env_value "$APPS_DIR/$app/.env.local" "$ENV_KEY" "$app_ports"
       write_env_value "$APPS_DIR/$app/.env.local" "$PUBLIC_ENV_KEY" "$app_ports"
