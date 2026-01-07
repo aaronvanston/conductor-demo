@@ -6,7 +6,7 @@ export default function Home() {
       <div className="fixed top-4 right-4">
         <ThemeToggle />
       </div>
-      <h1 className="text-6xl md:text-8xl font-bold tracking-tight text-foreground">
+      <h1 className="text-[44px] sm:text-[88px] font-normal text-foreground">
         Crux
       </h1>
     </main>

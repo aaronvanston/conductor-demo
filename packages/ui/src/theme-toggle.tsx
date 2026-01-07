@@ -5,7 +5,7 @@ import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 import { cn } from "./cn"
 
-export function ThemeToggle() {
+export function ThemeToggle({ className }: { className?: string }) {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = React.useState(false)
 
@@ -15,10 +15,12 @@ export function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <div className="flex items-center gap-1 p-1 rounded-full bg-muted">
-        <div className="w-8 h-8 rounded-full" />
-        <div className="w-8 h-8 rounded-full" />
-      </div>
+      <div
+        className={cn(
+          "inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/80",
+          className
+        )}
+      />
     )
   }
 
@@ -26,40 +28,18 @@ export function ThemeToggle() {
 
   return (
     <button
+      type="button"
       onClick={() => setTheme(isDark ? "light" : "dark")}
       className={cn(
-        "relative flex items-center gap-1 p-1 rounded-full",
-        "bg-muted transition-colors duration-200",
-        "hover:bg-muted/80"
+        "inline-flex h-10 w-10 items-center justify-center rounded-full",
+        "border border-border bg-card/80",
+        "text-muted-foreground transition-colors",
+        "hover:text-foreground hover:bg-accent",
+        className
       )}
-      aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
+      aria-label="Toggle theme"
     >
-      <span
-        className={cn(
-          "flex items-center justify-center w-8 h-8 rounded-full transition-all duration-200",
-          !isDark && "bg-background shadow-sm"
-        )}
-      >
-        <Sun
-          className={cn(
-            "h-4 w-4 transition-colors",
-            !isDark ? "text-foreground" : "text-muted-foreground"
-          )}
-        />
-      </span>
-      <span
-        className={cn(
-          "flex items-center justify-center w-8 h-8 rounded-full transition-all duration-200",
-          isDark && "bg-background shadow-sm"
-        )}
-      >
-        <Moon
-          className={cn(
-            "h-4 w-4 transition-colors",
-            isDark ? "text-foreground" : "text-muted-foreground"
-          )}
-        />
-      </span>
+      {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
     </button>
   )
 }
