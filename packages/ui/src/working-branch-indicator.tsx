@@ -1,8 +1,14 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { X } from "lucide-react"
+import { Check, ChevronDown, X } from "lucide-react"
 import { cn } from "./cn"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./dropdown-menu"
 
 const STORAGE_KEY_PREFIX = "dev-workspace-dismissed-"
 
@@ -14,12 +20,31 @@ const getBranchName = () =>
   process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF ||
   ""
 
+const rawAppPorts =
+  process.env.NEXT_PUBLIC_APP_PORTS || process.env.APP_PORTS || ""
+
+const parseAppPorts = (value: string) =>
+  value
+    .split(",")
+    .map((pair) => {
+      const [name, port] = pair.split(":").map((item) => item.trim())
+      if (!name || !port || !/^[0-9]+$/.test(port)) {
+        return null
+      }
+      return { name, port }
+    })
+    .filter(
+      (entry): entry is { name: string; port: string } => entry !== null
+    )
+
 export function WorkingBranchIndicator() {
   const [isDismissed, setIsDismissed] = useState(true)
   const [mounted, setMounted] = useState(false)
+  const [currentPort, setCurrentPort] = useState<string | null>(null)
 
   const branchName = getBranchName()
   const storageKey = `${STORAGE_KEY_PREFIX}${branchName}`
+  const appPorts = parseAppPorts(rawAppPorts)
 
   const isPreviewEnv = process.env.NEXT_PUBLIC_VERCEL_ENV === "preview"
 
@@ -30,6 +55,9 @@ export function WorkingBranchIndicator() {
       setIsDismissed(dismissed === "true")
     } catch {
       setIsDismissed(false)
+    }
+    if (typeof window !== "undefined") {
+      setCurrentPort(window.location.port || null)
     }
   }, [storageKey])
 
@@ -56,15 +84,65 @@ export function WorkingBranchIndicator() {
 
   return (
     <div className={cn("fixed top-0 left-0 z-50", "flex items-center", "select-none")}>
-      <span
-        className={cn(
-          "text-[11px] font-mono",
-          "text-muted-foreground/50",
-          "px-1.5 py-0.5"
-        )}
-      >
-        {branchName}
-      </span>
+      {appPorts.length > 0 ? (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button
+              type="button"
+              className={cn(
+                "inline-flex items-center gap-1.5",
+                "text-[11px] font-mono",
+                "text-muted-foreground/50",
+                "px-1.5 py-0.5",
+                "hover:text-muted-foreground/80",
+                "transition-colors"
+              )}
+              aria-label="Open app switcher"
+            >
+              {branchName}
+              <ChevronDown className="h-3 w-3" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start">
+            {appPorts.map(({ name, port }) => {
+              const isCurrent = currentPort === port
+              return (
+                <DropdownMenuItem
+                  key={`${name}:${port}`}
+                  disabled={isCurrent}
+                  className={cn(
+                    "flex items-center justify-between gap-2 font-mono text-[11px]",
+                    isCurrent && "text-muted-foreground"
+                  )}
+                  onSelect={(event) => {
+                    if (isCurrent) return
+                    event.preventDefault()
+                    if (typeof window === "undefined") return
+                    window.location.assign(
+                      `${window.location.protocol}//${window.location.hostname}:${port}`
+                    )
+                  }}
+                >
+                  <span>
+                    {name}:{port}
+                  </span>
+                  {isCurrent ? <Check className="h-3 w-3 opacity-70" /> : null}
+                </DropdownMenuItem>
+              )
+            })}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      ) : (
+        <span
+          className={cn(
+            "text-[11px] font-mono",
+            "text-muted-foreground/50",
+            "px-1.5 py-0.5"
+          )}
+        >
+          {branchName}
+        </span>
+      )}
 
       <button
         onClick={handleDismiss}

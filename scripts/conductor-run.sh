@@ -21,6 +21,11 @@ fi
 echo "Starting development server..."
 echo "Workspace: ${NEXT_PUBLIC_WORKSPACE_NAME:-main}"
 
+# Watch dev server ports and sync APP_PORTS into app .env.local files.
+"$SCRIPT_DIR/dev-ports-watch.sh" >/dev/null 2>&1 &
+APP_PORTS_WATCH_PID=$!
+trap 'kill "$APP_PORTS_WATCH_PID" 2>/dev/null || true' EXIT
+
 # Run turbo dev
 if [ -n "$TURBO_FILTER" ]; then
   bun turbo run dev $TURBO_FILTER
