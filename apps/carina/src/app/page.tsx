@@ -1,14 +1,19 @@
-import { ThemeToggle } from "@repo/ui/theme-toggle"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center bg-background">
-      <div className="fixed top-4 right-4">
-        <ThemeToggle />
+    <div className="relative min-h-[100dvh] overflow-hidden bg-background">
+      <div className="relative z-10 flex min-h-[100dvh] flex-col">
+        <header className="absolute right-6 top-6">
+          <ThemeToggle />
+        </header>
+
+        <main className="flex flex-1 items-center justify-center">
+          <h1 className="text-[44px] sm:text-[88px] font-normal text-foreground">
+            Carina
+          </h1>
+        </main>
       </div>
-      <h1 className="text-[44px] sm:text-[88px] font-normal text-foreground">
-        Carina
-      </h1>
-    </main>
+    </div>
   )
 }

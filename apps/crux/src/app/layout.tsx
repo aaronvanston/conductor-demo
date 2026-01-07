@@ -1,17 +1,30 @@
-import type { Metadata } from "next"
-import { Geist } from "next/font/google"
+import type { Metadata, Viewport } from "next"
+import { Geist, Geist_Mono } from "next/font/google"
 import { ThemeProvider } from "@repo/ui/theme-provider"
 import { WorkingBranchIndicator } from "@repo/ui/working-branch-indicator"
 import "./globals.css"
 
-const geistSans = Geist({
-  variable: "--font-sans",
+const geist = Geist({
   subsets: ["latin"],
+  variable: "--font-sans",
+})
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
 })
 
 export const metadata: Metadata = {
   title: "Crux",
   description: "Conductor Demo - Crux App",
+}
+
+export const viewport: Viewport = {
+  colorScheme: "light dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+  ],
 }
 
 export default function RootLayout({
@@ -21,7 +34,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} font-sans antialiased`}>
+      <body className={`${geist.variable} ${geistMono.variable} font-sans antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

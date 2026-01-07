@@ -1,17 +1,30 @@
-import type { Metadata } from "next"
-import { Source_Serif_4 } from "next/font/google"
+import type { Metadata, Viewport } from "next"
+import { Source_Serif_4, Geist_Mono } from "next/font/google"
 import { ThemeProvider } from "@repo/ui/theme-provider"
 import { WorkingBranchIndicator } from "@repo/ui/working-branch-indicator"
 import "./globals.css"
 
 const sourceSerif = Source_Serif_4({
-  variable: "--font-serif",
   subsets: ["latin"],
+  variable: "--font-serif",
+})
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
 })
 
 export const metadata: Metadata = {
   title: "Carina",
   description: "Conductor Demo - Carina App",
+}
+
+export const viewport: Viewport = {
+  colorScheme: "light dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+  ],
 }
 
 export default function RootLayout({
@@ -21,7 +34,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${sourceSerif.variable} font-serif antialiased`}>
+      <body className={`${sourceSerif.variable} ${geistMono.variable} font-serif antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

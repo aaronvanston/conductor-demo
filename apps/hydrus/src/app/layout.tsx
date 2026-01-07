@@ -1,17 +1,25 @@
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Geist_Mono } from "next/font/google"
 import { ThemeProvider } from "@repo/ui/theme-provider"
 import { WorkingBranchIndicator } from "@repo/ui/working-branch-indicator"
 import "./globals.css"
 
 const geistMono = Geist_Mono({
-  variable: "--font-mono",
   subsets: ["latin"],
+  variable: "--font-mono",
 })
 
 export const metadata: Metadata = {
   title: "Hydrus",
   description: "Conductor Demo - Hydrus App",
+}
+
+export const viewport: Viewport = {
+  colorScheme: "light dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+  ],
 }
 
 export default function RootLayout({

@@ -55,7 +55,7 @@ export function WorkingBranchIndicator() {
   }
 
   return (
-    <div className={cn("fixed top-0 left-0 z-50", "flex items-center", "select-none group")}>
+    <div className={cn("fixed top-0 left-0 z-10", "flex items-center", "select-none group")}>
       <span
         className={cn(
           "text-[11px] font-mono",

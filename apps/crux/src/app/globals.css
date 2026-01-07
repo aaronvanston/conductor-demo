@@ -1,4 +1,21 @@
 @import "tailwindcss";
-@import "@repo/ui/theme.css";
 
-@source "../../../packages/ui/src/*.tsx";
+@source "../**/*.{ts,tsx,mdx}";
+@source "../../../../packages/**/src/**/*.{ts,tsx,mdx}";
+
+@import "../../../../packages/ui/src/theme.css";
+
+@layer base {
+  :root {
+    --background: #ffffff;
+  }
+
+  .dark {
+    --background: #000000;
+  }
+
+  html,
+  body {
+    @apply min-h-[100dvh] bg-background;
+  }
+}
