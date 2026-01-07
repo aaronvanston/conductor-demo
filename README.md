@@ -1,135 +1,89 @@
-# Turborepo starter
+# Conductor Demo
 
-This Turborepo starter is maintained by the Turborepo core team.
+A demonstration monorepo showcasing [Conductor](https://conductor.build) workspace management with Turborepo.
 
-## Using this example
+## Apps
 
-Run the following command:
+This monorepo contains three Next.js applications, each showcasing a different typographic style:
 
-```sh
-npx create-turbo@latest
+| App | Font | Port |
+|-----|------|------|
+| **Crux** | Geist Sans | 3000 |
+| **Carina** | Source Serif 4 | 3001 |
+| **Hydrus** | Geist Mono | 3002 |
+
+Each app features:
+- Light/dark theme toggle
+- Working branch indicator (visible in development/preview)
+- Centered app name display
+
+## Getting Started
+
+### Prerequisites
+
+- [Bun](https://bun.sh) v1.2+
+- [Conductor](https://conductor.build) (optional, for workspace management)
+
+### Development
+
+```bash
+# Install dependencies
+bun install
+
+# Run all apps
+bun dev
+
+# Run a specific app
+bun turbo dev --filter=crux
+bun turbo dev --filter=carina
+bun turbo dev --filter=hydrus
 ```
 
-## What's inside?
+## Conductor Integration
 
-This Turborepo includes the following packages/apps:
+This repo is configured for use with Conductor. The `conductor.json` file defines setup and run scripts for workspace management.
 
-### Apps and Packages
+### Scripts
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+- **Setup** (`scripts/conductor-setup.sh`): Copies environment files and installs dependencies
+- **Run** (`scripts/conductor-run.sh`): Starts the dev server with workspace name exported for the branch indicator
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+### Using with Conductor
 
-### Utilities
+1. Add this repository to Conductor
+2. Create a workspace - Conductor will run the setup script automatically
+3. Start development - Conductor will run the run script
 
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
+## Project Structure
 
 ```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+├── apps/
+│   ├── crux/        # Sans-serif app (Geist)
+│   ├── carina/      # Serif app (Source Serif 4)
+│   └── hydrus/      # Monospace app (Geist Mono)
+├── packages/
+│   ├── ui/          # Shared UI components
+│   ├── eslint-config/
+│   └── typescript-config/
+├── scripts/
+│   ├── conductor-setup.sh
+│   └── conductor-run.sh
+└── conductor.json
 ```
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+## Packages
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
+### @repo/ui
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
+Shared UI components including:
+- `ThemeProvider` - next-themes wrapper for light/dark mode
+- `ThemeToggle` - Sun/moon toggle button
+- `WorkingBranchIndicator` - Shows current branch/workspace name
+- `Button` - Styled button component
+- `theme.css` - CSS variables for theming
 
-### Develop
+## Learn More
 
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
-
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+- [Conductor Documentation](https://docs.conductor.build)
+- [Turborepo Documentation](https://turborepo.com/docs)
+- [Next.js Documentation](https://nextjs.org/docs)
