@@ -1,7 +1,17 @@
 {
   "$schema": "https://turborepo.com/schema.json",
   "ui": "tui",
-  "globalEnv": ["APP_PORTS", "NEXT_PUBLIC_APP_PORTS"],
+  "globalEnv": [
+    "APP_PORTS",
+    "NEXT_PUBLIC_APP_PORTS",
+    "NEXT_PUBLIC_WORKING_BRANCH",
+    "NEXT_PUBLIC_GIT_BRANCH",
+    "NEXT_PUBLIC_BRANCH_NAME",
+    "NEXT_PUBLIC_WORKSPACE_NAME",
+    "NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF",
+    "NEXT_PUBLIC_VERCEL_ENV",
+    "NODE_ENV"
+  ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],

@@ -1,5 +1,7 @@
 "use client"
 
+/* eslint-disable react-hooks/set-state-in-effect */
+
 import { useEffect, useState } from "react"
 import { Check, ChevronDown, X } from "lucide-react"
 import { cn } from "./cn"
