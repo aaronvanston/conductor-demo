@@ -62,9 +62,7 @@ This repo is configured for use with Conductor. The `conductor.json` file define
 │   ├── carina/      # Serif app (Source Serif 4)
 │   └── hydrus/      # Monospace app (Geist Mono)
 ├── packages/
-│   ├── ui/          # Shared UI components
-│   ├── eslint-config/
-│   └── typescript-config/
+│   └── ui/          # Shared UI components
 ├── scripts/
 │   ├── conductor-setup.sh
 │   └── conductor-run.sh

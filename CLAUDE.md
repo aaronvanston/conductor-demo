@@ -19,8 +19,6 @@ Each app displays its name centered on screen with a light/dark theme toggle in 
 ### Packages
 
 - **@repo/ui** - Shared UI components (ThemeProvider, ThemeToggle, WorkingBranchIndicator, Button, theme.css)
-- **@repo/eslint-config** - ESLint configurations
-- **@repo/typescript-config** - TypeScript configurations
 
 ## Key Files
 
