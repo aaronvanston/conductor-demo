@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next"
 import { Source_Serif_4, Geist_Mono } from "next/font/google"
 import { ThemeProvider } from "@repo/ui/theme-provider"
-import { WorkingBranchIndicator } from "@repo/ui/working-branch-indicator"
+import WorkingBranchIndicator from "./working-branch-indicator.client"
 import "./globals.css"
 
 const sourceSerif = Source_Serif_4({
