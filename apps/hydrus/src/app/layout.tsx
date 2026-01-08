@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next"
 import { Geist_Mono } from "next/font/google"
 import { ThemeProvider } from "@repo/ui/theme-provider"
-import { WorkingBranchIndicator } from "@repo/ui/working-branch-indicator"
+import WorkingBranchIndicator from "./working-branch-indicator.client"
 import "./globals.css"
 
 const geistMono = Geist_Mono({

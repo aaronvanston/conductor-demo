@@ -1,8 +1,6 @@
 "use client"
 
-/* eslint-disable react-hooks/set-state-in-effect */
-
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Check, ChevronDown, X } from "lucide-react"
 import { cn } from "./cn"
 import {
@@ -39,29 +37,29 @@ const parseAppPorts = (value: string) =>
       (entry): entry is { name: string; port: string } => entry !== null
     )
 
-export function WorkingBranchIndicator() {
-  const [isDismissed, setIsDismissed] = useState(true)
-  const [mounted, setMounted] = useState(false)
-  const [currentPort, setCurrentPort] = useState<string | null>(null)
+const getInitialDismissed = (storageKey: string) => {
+  if (typeof window === "undefined") {
+    return false
+  }
 
+  try {
+    return localStorage.getItem(storageKey) === "true"
+  } catch {
+    return false
+  }
+}
+
+export function WorkingBranchIndicator() {
   const branchName = getBranchName()
   const storageKey = `${STORAGE_KEY_PREFIX}${branchName}`
   const appPorts = parseAppPorts(rawAppPorts)
+  const [isDismissed, setIsDismissed] = useState(() =>
+    getInitialDismissed(storageKey)
+  )
+  const currentPort =
+    typeof window === "undefined" ? null : window.location.port || null
 
   const isPreviewEnv = process.env.NEXT_PUBLIC_VERCEL_ENV === "preview"
-
-  useEffect(() => {
-    setMounted(true)
-    try {
-      const dismissed = localStorage.getItem(storageKey)
-      setIsDismissed(dismissed === "true")
-    } catch {
-      setIsDismissed(false)
-    }
-    if (typeof window !== "undefined") {
-      setCurrentPort(window.location.port || null)
-    }
-  }, [storageKey])
 
   if (process.env.NODE_ENV !== "development" && !isPreviewEnv) {
     return null
@@ -80,7 +78,7 @@ export function WorkingBranchIndicator() {
     }
   }
 
-  if (!mounted || isDismissed) {
+  if (isDismissed) {
     return null
   }
 
