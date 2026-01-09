@@ -78,10 +78,10 @@
   --primary-foreground: oklch(0.985 0 0);
   /* Fallback active states (overridden by accent color provider) */
   --primary-active: oklch(0.145 0 0);
-  --primary-active-border: oklch(0.10 0 0);
+  --primary-active-border: oklch(0.1 0 0);
   --primary-active-foreground: oklch(0.985 0 0);
   /* Fallback accent text/muted (overridden by accent color provider) */
-  --accent-text: oklch(0.50 0.18 255);
+  --accent-text: oklch(0.5 0.18 255);
   --accent-muted: oklch(0.95 0.05 255);
   --secondary: oklch(0.965 0 0);
   --secondary-foreground: oklch(0.205 0 0);
@@ -90,9 +90,9 @@
   --accent: oklch(0.965 0 0);
   --accent-foreground: oklch(0.205 0 0);
   /* Semantic colors - derived from Linear accent palette */
-  --destructive: #EB5855;
-  --success: #4FB683;
-  --warning: #F1C002;
+  --destructive: #eb5855;
+  --success: #4fb683;
+  --warning: #f1c002;
   --border: oklch(0.91 0 0);
   --input: oklch(0.91 0 0);
   --ring: oklch(0.708 0 0);
@@ -103,13 +103,13 @@
   --chart-5: oklch(0.769 0.188 70.08);
   --table-row: oklch(0.995 0 0);
   /* Linear accent colors for categories/data visualization */
-  --accent-indigo: #5D69D5;
-  --accent-cyan: #26B7CD;
-  --accent-green: #4FB683;
-  --accent-yellow: #F1C002;
-  --accent-orange: #EA9343;
-  --accent-mauve: #CCA09A;
-  --accent-red: #EB5855;
+  --accent-indigo: #5d69d5;
+  --accent-cyan: #26b7cd;
+  --accent-green: #4fb683;
+  --accent-yellow: #f1c002;
+  --accent-orange: #ea9343;
+  --accent-mauve: #cca09a;
+  --accent-red: #eb5855;
   --sidebar-bg: oklch(0.965 0 0);
   --sidebar: oklch(0.965 0 0);
   --sidebar-foreground: oklch(0.35 0 0);
@@ -132,7 +132,7 @@
   --primary-foreground: oklch(0.205 0 0);
   /* Fallback active states (overridden by accent color provider) */
   --primary-active: oklch(0.95 0 0);
-  --primary-active-border: oklch(0.90 0 0);
+  --primary-active-border: oklch(0.9 0 0);
   --primary-active-foreground: oklch(0.205 0 0);
   /* Fallback accent text/muted (overridden by accent color provider) */
   --accent-text: oklch(0.65 0.18 255);
@@ -144,9 +144,9 @@
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
   /* Semantic colors - same as light mode, from Linear accent palette */
-  --destructive: #EB5855;
-  --success: #4FB683;
-  --warning: #F1C002;
+  --destructive: #eb5855;
+  --success: #4fb683;
+  --warning: #f1c002;
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);

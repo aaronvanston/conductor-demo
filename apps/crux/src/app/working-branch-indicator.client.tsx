@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import dynamic from "next/dynamic"
+import dynamic from "next/dynamic";
 
 const WorkingBranchIndicator = dynamic(
   () =>
@@ -8,8 +8,8 @@ const WorkingBranchIndicator = dynamic(
       (mod) => mod.WorkingBranchIndicator
     ),
   { ssr: false }
-)
+);
 
 export default function WorkingBranchIndicatorClient() {
-  return <WorkingBranchIndicator />
+  return <WorkingBranchIndicator />;
 }
