@@ -1,4 +1,4 @@
-import { ThemeToggle } from "@repo/ui/theme-toggle"
+import { ThemeToggle } from "@repo/ui/theme-toggle";
 
 export default function Home() {
   return (
@@ -9,9 +9,11 @@ export default function Home() {
         </header>
 
         <main className="flex flex-1 items-center justify-center">
-          <h1 className="font-normal text-[44px] text-foreground sm:text-[88px]">Carina</h1>
+          <h1 className="font-normal text-[44px] text-foreground sm:text-[88px]">
+            Carina
+          </h1>
         </main>
       </div>
     </div>
-  )
+  );
 }

@@ -1,23 +1,23 @@
-"use client"
+"use client";
 
-import { Moon, Sun } from "lucide-react"
-import { useTheme } from "next-themes"
-import { useEffect, useState } from "react"
-import { cn } from "./cn"
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+import { cn } from "./cn";
 
 export function ThemeToggle({ className }: { className?: string }) {
-  const { resolvedTheme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
   if (!mounted) {
-    return <div className={cn("h-9 w-9", className)} />
+    return <div className={cn("h-9 w-9", className)} />;
   }
 
-  const isDark = resolvedTheme === "dark"
+  const isDark = resolvedTheme === "dark";
 
   return (
     <button
@@ -31,5 +31,5 @@ export function ThemeToggle({ className }: { className?: string }) {
     >
       {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
     </button>
-  )
+  );
 }

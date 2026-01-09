@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import { Check, ChevronDown, X } from "lucide-react"
-import { useState } from "react"
-import { cn } from "./cn"
+import { Check, ChevronDown, X } from "lucide-react";
+import { useState } from "react";
+import { cn } from "./cn";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "./dropdown-menu"
+} from "./dropdown-menu";
 
-const STORAGE_KEY_PREFIX = "dev-workspace-dismissed-"
-const PORT_NUMBER_REGEX = /^[0-9]+$/
+const STORAGE_KEY_PREFIX = "dev-workspace-dismissed-";
+const PORT_NUMBER_REGEX = /^[0-9]+$/;
 
 const getBranchName = () =>
   process.env.NEXT_PUBLIC_WORKING_BRANCH ||
@@ -19,66 +19,76 @@ const getBranchName = () =>
   process.env.NEXT_PUBLIC_BRANCH_NAME ||
   process.env.NEXT_PUBLIC_WORKSPACE_NAME ||
   process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF ||
-  ""
+  "";
 
-const rawAppPorts = process.env.NEXT_PUBLIC_APP_PORTS || process.env.APP_PORTS || ""
+const rawAppPorts =
+  process.env.NEXT_PUBLIC_APP_PORTS || process.env.APP_PORTS || "";
 
 const parseAppPorts = (value: string) =>
   value
     .split(",")
     .map((pair) => {
-      const [name, port] = pair.split(":").map((item) => item.trim())
+      const [name, port] = pair.split(":").map((item) => item.trim());
       if (!(name && port && PORT_NUMBER_REGEX.test(port))) {
-        return null
+        return null;
       }
-      return { name, port }
+      return { name, port };
     })
-    .filter((entry): entry is { name: string; port: string } => entry !== null)
+    .filter((entry): entry is { name: string; port: string } => entry !== null);
 
 const getInitialDismissed = (storageKey: string) => {
   if (typeof window === "undefined") {
-    return false
+    return false;
   }
 
   try {
-    return localStorage.getItem(storageKey) === "true"
+    return localStorage.getItem(storageKey) === "true";
   } catch {
-    return false
+    return false;
   }
-}
+};
 
 export function WorkingBranchIndicator() {
-  const branchName = getBranchName()
-  const storageKey = `${STORAGE_KEY_PREFIX}${branchName}`
-  const appPorts = parseAppPorts(rawAppPorts)
-  const [isDismissed, setIsDismissed] = useState(() => getInitialDismissed(storageKey))
-  const currentPort = typeof window === "undefined" ? null : window.location.port || null
+  const branchName = getBranchName();
+  const storageKey = `${STORAGE_KEY_PREFIX}${branchName}`;
+  const appPorts = parseAppPorts(rawAppPorts);
+  const [isDismissed, setIsDismissed] = useState(() =>
+    getInitialDismissed(storageKey)
+  );
+  const currentPort =
+    typeof window === "undefined" ? null : window.location.port || null;
 
-  const isPreviewEnv = process.env.NEXT_PUBLIC_VERCEL_ENV === "preview"
+  const isPreviewEnv = process.env.NEXT_PUBLIC_VERCEL_ENV === "preview";
 
   if (process.env.NODE_ENV !== "development" && !isPreviewEnv) {
-    return null
+    return null;
   }
 
   if (!branchName) {
-    return null
+    return null;
   }
 
   const handleDismiss = () => {
-    setIsDismissed(true)
+    setIsDismissed(true);
     try {
-      localStorage.setItem(storageKey, "true")
+      localStorage.setItem(storageKey, "true");
     } catch {
       // Ignore localStorage errors
     }
-  }
+  };
 
   if (isDismissed) {
-    return null
+    return null;
   }
 
   return (
-    <div className={cn("fixed top-0 left-0 z-50", "flex items-center", "select-none")}>
+    <div
+      className={cn(
+        "fixed top-0 left-0 z-50",
+        "flex items-center",
+        "select-none"
+      )}
+    >
       {appPorts.length > 0 ? (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -100,7 +110,7 @@ export function WorkingBranchIndicator() {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start">
             {appPorts.map(({ name, port }) => {
-              const isCurrent = currentPort === port
+              const isCurrent = currentPort === port;
               return (
                 <DropdownMenuItem
                   className={cn(
@@ -111,15 +121,15 @@ export function WorkingBranchIndicator() {
                   key={`${name}:${port}`}
                   onSelect={(event) => {
                     if (isCurrent) {
-                      return
+                      return;
                     }
-                    event.preventDefault()
+                    event.preventDefault();
                     if (typeof window === "undefined") {
-                      return
+                      return;
                     }
                     window.location.assign(
                       `${window.location.protocol}//${window.location.hostname}:${port}`
-                    )
+                    );
                   }}
                 >
                   <span>
@@ -127,12 +137,18 @@ export function WorkingBranchIndicator() {
                   </span>
                   {isCurrent ? <Check className="h-3 w-3 opacity-70" /> : null}
                 </DropdownMenuItem>
-              )
+              );
             })}
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (
-        <span className={cn("font-mono text-[11px]", "text-muted-foreground/50", "px-1.5 py-0.5")}>
+        <span
+          className={cn(
+            "font-mono text-[11px]",
+            "text-muted-foreground/50",
+            "px-1.5 py-0.5"
+          )}
+        >
           {branchName}
         </span>
       )}
@@ -151,5 +167,5 @@ export function WorkingBranchIndicator() {
         <X className="h-3 w-3" />
       </button>
     </div>
-  )
+  );
 }

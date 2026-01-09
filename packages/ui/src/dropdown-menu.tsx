@@ -1,15 +1,26 @@
-"use client"
+"use client";
 
-import { Content, Item, Portal, Root, Separator, Trigger } from "@radix-ui/react-dropdown-menu"
-import { type ComponentPropsWithoutRef, type ElementRef, forwardRef } from "react"
-import { cn } from "./cn"
+import {
+  Content,
+  Item,
+  Portal,
+  Root,
+  Separator,
+  Trigger,
+} from "@radix-ui/react-dropdown-menu";
+import {
+  type ComponentPropsWithoutRef,
+  type ElementRef,
+  forwardRef,
+} from "react";
+import { cn } from "./cn";
 
-const DropdownMenu = Root
-const DropdownMenuTrigger = Trigger
-const DropdownMenuContentPrimitive = Content
-const DropdownMenuItemPrimitive = Item
-const DropdownMenuSeparatorPrimitive = Separator
-const DropdownMenuPortal = Portal
+const DropdownMenu = Root;
+const DropdownMenuTrigger = Trigger;
+const DropdownMenuContentPrimitive = Content;
+const DropdownMenuItemPrimitive = Item;
+const DropdownMenuSeparatorPrimitive = Separator;
+const DropdownMenuPortal = Portal;
 
 const DropdownMenuContent = forwardRef<
   ElementRef<typeof DropdownMenuContentPrimitive>,
@@ -28,12 +39,14 @@ const DropdownMenuContent = forwardRef<
       {...props}
     />
   </DropdownMenuPortal>
-))
-DropdownMenuContent.displayName = DropdownMenuContentPrimitive.displayName
+));
+DropdownMenuContent.displayName = DropdownMenuContentPrimitive.displayName;
 
-type DropdownMenuItemProps = ComponentPropsWithoutRef<typeof DropdownMenuItemPrimitive> & {
-  inset?: boolean
-}
+type DropdownMenuItemProps = ComponentPropsWithoutRef<
+  typeof DropdownMenuItemPrimitive
+> & {
+  inset?: boolean;
+};
 
 const DropdownMenuItem = forwardRef<
   ElementRef<typeof DropdownMenuItemPrimitive>,
@@ -50,8 +63,8 @@ const DropdownMenuItem = forwardRef<
     ref={ref}
     {...props}
   />
-))
-DropdownMenuItem.displayName = DropdownMenuItemPrimitive.displayName
+));
+DropdownMenuItem.displayName = DropdownMenuItemPrimitive.displayName;
 
 const DropdownMenuSeparator = forwardRef<
   ElementRef<typeof DropdownMenuSeparatorPrimitive>,
@@ -62,8 +75,8 @@ const DropdownMenuSeparator = forwardRef<
     ref={ref}
     {...props}
   />
-))
-DropdownMenuSeparator.displayName = DropdownMenuSeparatorPrimitive.displayName
+));
+DropdownMenuSeparator.displayName = DropdownMenuSeparatorPrimitive.displayName;
 
 export {
   DropdownMenu,
@@ -71,4 +84,4 @@ export {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-}
+};
