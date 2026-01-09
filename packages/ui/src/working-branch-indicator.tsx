@@ -1,7 +1,7 @@
 "use client"
 
-import { useState } from "react"
 import { Check, ChevronDown, X } from "lucide-react"
+import { useState } from "react"
 import { cn } from "./cn"
 import {
   DropdownMenu,
@@ -11,6 +11,7 @@ import {
 } from "./dropdown-menu"
 
 const STORAGE_KEY_PREFIX = "dev-workspace-dismissed-"
+const PORT_NUMBER_REGEX = /^[0-9]+$/
 
 const getBranchName = () =>
   process.env.NEXT_PUBLIC_WORKING_BRANCH ||
@@ -20,22 +21,19 @@ const getBranchName = () =>
   process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF ||
   ""
 
-const rawAppPorts =
-  process.env.NEXT_PUBLIC_APP_PORTS || process.env.APP_PORTS || ""
+const rawAppPorts = process.env.NEXT_PUBLIC_APP_PORTS || process.env.APP_PORTS || ""
 
 const parseAppPorts = (value: string) =>
   value
     .split(",")
     .map((pair) => {
       const [name, port] = pair.split(":").map((item) => item.trim())
-      if (!name || !port || !/^[0-9]+$/.test(port)) {
+      if (!(name && port && PORT_NUMBER_REGEX.test(port))) {
         return null
       }
       return { name, port }
     })
-    .filter(
-      (entry): entry is { name: string; port: string } => entry !== null
-    )
+    .filter((entry): entry is { name: string; port: string } => entry !== null)
 
 const getInitialDismissed = (storageKey: string) => {
   if (typeof window === "undefined") {
@@ -53,11 +51,8 @@ export function WorkingBranchIndicator() {
   const branchName = getBranchName()
   const storageKey = `${STORAGE_KEY_PREFIX}${branchName}`
   const appPorts = parseAppPorts(rawAppPorts)
-  const [isDismissed, setIsDismissed] = useState(() =>
-    getInitialDismissed(storageKey)
-  )
-  const currentPort =
-    typeof window === "undefined" ? null : window.location.port || null
+  const [isDismissed, setIsDismissed] = useState(() => getInitialDismissed(storageKey))
+  const currentPort = typeof window === "undefined" ? null : window.location.port || null
 
   const isPreviewEnv = process.env.NEXT_PUBLIC_VERCEL_ENV === "preview"
 
@@ -88,16 +83,16 @@ export function WorkingBranchIndicator() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button
-              type="button"
+              aria-label="Open app switcher"
               className={cn(
                 "inline-flex items-center gap-1.5",
-                "text-[11px] font-mono",
+                "font-mono text-[11px]",
                 "text-muted-foreground/50",
                 "px-1.5 py-0.5",
                 "hover:text-muted-foreground/80",
                 "transition-colors"
               )}
-              aria-label="Open app switcher"
+              type="button"
             >
               {branchName}
               <ChevronDown className="h-3 w-3" />
@@ -108,16 +103,20 @@ export function WorkingBranchIndicator() {
               const isCurrent = currentPort === port
               return (
                 <DropdownMenuItem
-                  key={`${name}:${port}`}
-                  disabled={isCurrent}
                   className={cn(
                     "flex items-center justify-between gap-2 font-mono text-[11px]",
                     isCurrent && "text-muted-foreground"
                   )}
+                  disabled={isCurrent}
+                  key={`${name}:${port}`}
                   onSelect={(event) => {
-                    if (isCurrent) return
+                    if (isCurrent) {
+                      return
+                    }
                     event.preventDefault()
-                    if (typeof window === "undefined") return
+                    if (typeof window === "undefined") {
+                      return
+                    }
                     window.location.assign(
                       `${window.location.protocol}//${window.location.hostname}:${port}`
                     )
@@ -133,26 +132,21 @@ export function WorkingBranchIndicator() {
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (
-        <span
-          className={cn(
-            "text-[11px] font-mono",
-            "text-muted-foreground/50",
-            "px-1.5 py-0.5"
-          )}
-        >
+        <span className={cn("font-mono text-[11px]", "text-muted-foreground/50", "px-1.5 py-0.5")}>
           {branchName}
         </span>
       )}
 
       <button
-        onClick={handleDismiss}
+        aria-label="Dismiss working branch indicator"
         className={cn(
-          "p-0.5 rounded",
+          "rounded p-0.5",
           "text-muted-foreground/40 hover:text-muted-foreground/70",
           "hover:bg-muted/50",
           "transition-colors"
         )}
-        aria-label="Dismiss working branch indicator"
+        onClick={handleDismiss}
+        type="button"
       >
         <X className="h-3 w-3" />
       </button>

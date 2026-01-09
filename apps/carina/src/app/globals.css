@@ -1,9 +1,8 @@
 @import "tailwindcss";
+@import "../../../../packages/ui/src/theme.css";
 
 @source "../**/*.{ts,tsx,mdx}";
 @source "../../../../packages/**/src/**/*.{ts,tsx,mdx}";
-
-@import "../../../../packages/ui/src/theme.css";
 
 @theme inline {
   --font-serif: var(--font-serif);

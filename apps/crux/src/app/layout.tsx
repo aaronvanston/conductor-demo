@@ -1,6 +1,6 @@
+import { ThemeProvider } from "@repo/ui/theme-provider"
 import type { Metadata, Viewport } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
-import { ThemeProvider } from "@repo/ui/theme-provider"
 import WorkingBranchIndicator from "./working-branch-indicator.client"
 import "./globals.css"
 
@@ -38,8 +38,8 @@ export default function RootLayout({
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
-          enableSystem
           disableTransitionOnChange
+          enableSystem
         >
           <WorkingBranchIndicator />
           {children}
