@@ -6,15 +6,164 @@
 
 @layer base {
   :root {
-    --background: #ffffff;
+    --background: #f6f8ff;
+    --foreground: #0b1021;
+    --card: #ffffff;
+    --card-foreground: #0b1021;
+    --accent: #e1edff;
+    --accent-foreground: #0b1021;
+    --muted: #dbe5ff;
+    --muted-foreground: #4a577a;
+    --border: #c6d4ff;
+    --ring: #7fa3ff;
+    --crux-glow-1: #9dc0ff;
+    --crux-glow-2: #58f2e6;
+    --crux-glow-3: #b98bff;
+    --crux-line: #d0dcff;
+    --crux-title-from: #1030a0;
+    --crux-title-to: #13a8ff;
   }
 
   .dark {
-    --background: #000000;
+    --background: #05060d;
+    --foreground: #e7ecff;
+    --card: #0f1424;
+    --card-foreground: #e7ecff;
+    --accent: #111c36;
+    --accent-foreground: #e7ecff;
+    --muted: #121b34;
+    --muted-foreground: #98a5d7;
+    --border: #243254;
+    --ring: #4366b3;
+    --crux-glow-1: #2a4cff;
+    --crux-glow-2: #2bd1c2;
+    --crux-glow-3: #6a3cff;
+    --crux-line: #1a2746;
+    --crux-title-from: #9cc6ff;
+    --crux-title-to: #5fffe1;
   }
 
   html,
   body {
-    @apply min-h-[100dvh] bg-background;
+    @apply min-h-[100dvh] bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .crux-shell {
+    position: relative;
+    min-height: 100dvh;
+    overflow: hidden;
+    background-color: var(--background);
+    background-image:
+      radial-gradient(circle at 20% 15%, color-mix(in srgb, var(--crux-glow-1) 55%, transparent), transparent 60%),
+      radial-gradient(circle at 85% 5%, color-mix(in srgb, var(--crux-glow-2) 45%, transparent), transparent 55%),
+      radial-gradient(circle at 30% 80%, color-mix(in srgb, var(--crux-glow-3) 45%, transparent), transparent 60%),
+      linear-gradient(135deg, var(--background) 10%, color-mix(in srgb, var(--background) 75%, #eef2ff) 55%, var(--background) 100%);
+    color: var(--foreground);
+  }
+
+  .crux-shell::before {
+    content: "";
+    position: absolute;
+    inset: -20% -10%;
+    background:
+      radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--crux-glow-1) 35%, transparent), transparent 60%),
+      radial-gradient(circle at 80% 10%, color-mix(in srgb, var(--crux-glow-2) 35%, transparent), transparent 55%),
+      radial-gradient(circle at 40% 80%, color-mix(in srgb, var(--crux-glow-3) 35%, transparent), transparent 60%);
+    opacity: 0.75;
+    filter: blur(40px);
+    animation: crux-drift 18s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  .crux-shell::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, color-mix(in srgb, var(--crux-line) 70%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in srgb, var(--crux-line) 70%, transparent) 1px, transparent 1px);
+    background-size: 96px 96px;
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  .crux-content {
+    position: relative;
+    z-index: 1;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .crux-header {
+    position: absolute;
+    right: 1.5rem;
+    top: 1.5rem;
+    z-index: 2;
+  }
+
+  .crux-main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .crux-title {
+    font-size: clamp(3.1rem, 10vw, 7rem);
+    font-weight: 520;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    background: linear-gradient(120deg, var(--crux-title-from), var(--crux-title-to));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 20px 40px color-mix(in srgb, var(--crux-title-to) 18%, transparent);
+    animation: crux-reveal 700ms ease-out both;
+  }
+
+  .crux-toggle {
+    border-color: color-mix(in srgb, var(--crux-line) 70%, transparent);
+    background-color: color-mix(in srgb, var(--card) 75%, transparent);
+    color: var(--foreground);
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--crux-line) 55%, transparent),
+      0 12px 30px -16px color-mix(in srgb, var(--crux-glow-1) 45%, transparent);
+    backdrop-filter: blur(8px);
+  }
+}
+
+@keyframes crux-drift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(-2%, 1%, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes crux-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crux-shell::before,
+  .crux-title {
+    animation: none;
   }
 }

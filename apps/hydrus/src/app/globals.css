@@ -6,15 +6,161 @@
 
 @layer base {
   :root {
-    --background: #ffffff;
+    --background: #f3f7f4;
+    --foreground: #101613;
+    --card: #eef5f2;
+    --card-foreground: #101613;
+    --accent: #d9ece4;
+    --accent-foreground: #101613;
+    --muted: #e2ece8;
+    --muted-foreground: #4a5a52;
+    --border: #c9d8d0;
+    --ring: #7cc8a8;
+    --hydrus-glow-1: #9ef0c7;
+    --hydrus-glow-2: #4bd7a2;
+    --hydrus-grid: #b7d2c7;
+    --hydrus-scan: rgba(16, 22, 19, 0.12);
   }
 
   .dark {
-    --background: #000000;
+    --background: #050806;
+    --foreground: #d6ffe8;
+    --card: #0a120e;
+    --card-foreground: #d6ffe8;
+    --accent: #0f1a14;
+    --accent-foreground: #d6ffe8;
+    --muted: #0b1510;
+    --muted-foreground: #86bfa1;
+    --border: #163123;
+    --ring: #2f9c74;
+    --hydrus-glow-1: #24f0b0;
+    --hydrus-glow-2: #0cbf7d;
+    --hydrus-grid: #123427;
+    --hydrus-scan: rgba(6, 18, 12, 0.55);
   }
 
   html,
   body {
-    @apply min-h-[100dvh] bg-background;
+    @apply min-h-[100dvh] bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .hydrus-shell {
+    position: relative;
+    min-height: 100dvh;
+    overflow: hidden;
+    background-color: var(--background);
+    background-image:
+      radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--hydrus-glow-1) 45%, transparent), transparent 60%),
+      radial-gradient(circle at 80% 80%, color-mix(in srgb, var(--hydrus-glow-2) 35%, transparent), transparent 60%),
+      linear-gradient(180deg, var(--background) 0%, color-mix(in srgb, var(--background) 80%, #0d1a12) 100%);
+    color: var(--foreground);
+  }
+
+  .hydrus-shell::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, color-mix(in srgb, var(--hydrus-grid) 70%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in srgb, var(--hydrus-grid) 70%, transparent) 1px, transparent 1px);
+    background-size: 72px 72px;
+    opacity: 0.25;
+    pointer-events: none;
+  }
+
+  .hydrus-shell::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 2px,
+      var(--hydrus-scan) 2px,
+      var(--hydrus-scan) 4px
+    );
+    opacity: 0.35;
+    mix-blend-mode: multiply;
+    animation: hydrus-scan 6s linear infinite;
+    pointer-events: none;
+  }
+
+  .hydrus-content {
+    position: relative;
+    z-index: 1;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hydrus-header {
+    position: absolute;
+    right: 1.5rem;
+    top: 1.5rem;
+    z-index: 2;
+  }
+
+  .hydrus-main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .hydrus-title {
+    font-size: clamp(2.8rem, 9vw, 6.5rem);
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-shadow:
+      0 0 20px color-mix(in srgb, var(--hydrus-glow-2) 45%, transparent),
+      0 0 60px color-mix(in srgb, var(--hydrus-glow-1) 35%, transparent);
+    animation: hydrus-flicker 1.8s ease-in-out infinite;
+  }
+
+  .hydrus-toggle {
+    border-color: color-mix(in srgb, var(--hydrus-grid) 70%, transparent);
+    background-color: color-mix(in srgb, var(--card) 75%, transparent);
+    color: var(--foreground);
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--hydrus-grid) 55%, transparent),
+      0 12px 28px -16px color-mix(in srgb, var(--hydrus-glow-2) 45%, transparent);
+    backdrop-filter: blur(8px);
+  }
+}
+
+@keyframes hydrus-scan {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(12px);
+  }
+}
+
+@keyframes hydrus-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  45% {
+    opacity: 0.92;
+  }
+  60% {
+    opacity: 0.97;
+  }
+  80% {
+    opacity: 0.9;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hydrus-shell::after,
+  .hydrus-title {
+    animation: none;
   }
 }

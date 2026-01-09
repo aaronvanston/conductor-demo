@@ -10,15 +10,169 @@
 
 @layer base {
   :root {
-    --background: #ffffff;
+    --background: #fbf4ea;
+    --foreground: #2d1c12;
+    --card: #fff9f2;
+    --card-foreground: #2d1c12;
+    --accent: #f1e3d3;
+    --accent-foreground: #2d1c12;
+    --muted: #f4eadf;
+    --muted-foreground: #6c5445;
+    --border: #e6d5c5;
+    --ring: #c29b7a;
+    --carina-glow-1: #f6d6b6;
+    --carina-glow-2: #f0bfa0;
+    --carina-rule: #c8ab90;
+    --carina-shadow: #d8c3af;
   }
 
   .dark {
-    --background: #000000;
+    --background: #1b1110;
+    --foreground: #f5e5d3;
+    --card: #261918;
+    --card-foreground: #f5e5d3;
+    --accent: #2b1c1a;
+    --accent-foreground: #f5e5d3;
+    --muted: #231614;
+    --muted-foreground: #c6ad99;
+    --border: #3a2722;
+    --ring: #bb8b67;
+    --carina-glow-1: #6f3a2d;
+    --carina-glow-2: #8a4f3b;
+    --carina-rule: #7d5a44;
+    --carina-shadow: #3a251e;
   }
 
   html,
   body {
-    @apply min-h-[100dvh] bg-background;
+    @apply min-h-[100dvh] bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .carina-shell {
+    position: relative;
+    min-height: 100dvh;
+    overflow: hidden;
+    background-color: var(--background);
+    background-image:
+      radial-gradient(circle at 18% 20%, color-mix(in srgb, var(--carina-glow-1) 45%, transparent), transparent 60%),
+      radial-gradient(circle at 82% 100%, color-mix(in srgb, var(--carina-glow-2) 45%, transparent), transparent 65%),
+      repeating-linear-gradient(120deg, rgba(76, 52, 33, 0.06) 0 1px, transparent 1px 9px),
+      linear-gradient(135deg, var(--background) 0%, color-mix(in srgb, var(--background) 75%, #fff2df) 60%, var(--background) 100%);
+    color: var(--foreground);
+  }
+
+  .carina-shell::before {
+    content: "";
+    position: absolute;
+    inset: -15% -10%;
+    background:
+      radial-gradient(circle at 30% 20%, color-mix(in srgb, var(--carina-glow-1) 35%, transparent), transparent 65%),
+      radial-gradient(circle at 70% 80%, color-mix(in srgb, var(--carina-glow-2) 35%, transparent), transparent 70%);
+    opacity: 0.65;
+    filter: blur(50px);
+    animation: carina-bloom 22s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  .carina-shell::after {
+    content: "";
+    position: absolute;
+    inset: 2.25rem;
+    border: 1px solid color-mix(in srgb, var(--carina-rule) 75%, transparent);
+    border-radius: 32px;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .carina-content {
+    position: relative;
+    z-index: 1;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .carina-header {
+    position: absolute;
+    right: 1.5rem;
+    top: 1.5rem;
+    z-index: 2;
+  }
+
+  .carina-main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+
+  .carina-title {
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    font-kerning: normal;
+    text-transform: none;
+    text-shadow: 0 1px 0 var(--carina-shadow);
+    animation: carina-reveal 900ms ease-out both;
+  }
+
+  .carina-title::after {
+    content: "";
+    display: block;
+    width: min(45vw, 220px);
+    height: 1px;
+    margin: 1.5rem auto 0;
+    background: color-mix(in srgb, var(--carina-rule) 70%, transparent);
+  }
+
+  .carina-toggle {
+    border-color: color-mix(in srgb, var(--carina-rule) 70%, transparent);
+    background-color: color-mix(in srgb, var(--card) 75%, transparent);
+    color: var(--foreground);
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--carina-rule) 55%, transparent),
+      0 12px 30px -18px color-mix(in srgb, var(--carina-glow-1) 45%, transparent);
+    backdrop-filter: blur(8px);
+  }
+}
+
+@media (max-width: 640px) {
+  .carina-shell::after {
+    inset: 1.25rem;
+    border-radius: 22px;
+  }
+}
+
+@keyframes carina-bloom {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(2%, -1%, 0) scale(1.03);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes carina-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carina-shell::before,
+  .carina-title {
+    animation: none;
   }
 }
